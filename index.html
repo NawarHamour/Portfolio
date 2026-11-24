@@ -1,1 +1,1134 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nawar Hamour | IT-Entwicklerin & Software Developer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans, Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: {
+                            950: '#070A11',
+                            900: '#0B0F19',
+                            800: '#111827',
+                            700: '#1E293B',
+                        },
+                        gold: {
+                            300: '#FCD34D',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Subtle Scrollbar & Glassmorphism Enhancements */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D97706;
+        }
+
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(245, 158, 11, 0.35);
+            background: rgba(17, 24, 39, 0.78);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(245, 158, 11, 0.12);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-grid-pattern {
+            background-size: 44px 44px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        }
+
+        /* Scroll Reveal Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-obsidian-900 text-slate-200 font-sans antialiased selection:bg-gold-500/30 selection:text-gold-300 overflow-x-hidden relative">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+    <div class="fixed top-[-15%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gold-500/10 blur-[130px] pointer-events-none z-0 animate-pulse-slow"></div>
+    <div class="fixed bottom-[-15%] right-[-10%] w-[550px] h-[550px] rounded-full bg-amber-600/10 blur-[140px] pointer-events-none z-0 animate-pulse-slow"></div>
+
+    <!-- Custom Toast Notification Box (Replaces alert) -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-card px-5 py-3.5 rounded-2xl border border-gold-500/40 shadow-2xl flex items-center gap-3 text-sm font-medium text-slate-100">
+            <span class="w-7 h-7 rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center">
+                <i data-lucide="check" class="w-4 h-4"></i>
+            </span>
+            <span id="toast-message">Kopiert!</span>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 inset-x-0 z-40 transition-all duration-300 border-b border-white/5 bg-obsidian-900/80 backdrop-blur-xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Monogram Logo -->
+            <a href="#" class="group flex items-center gap-3 focus:outline-none">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 p-[1px] shadow-lg shadow-gold-500/20 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-obsidian-900 rounded-[11px] flex items-center justify-center font-display font-bold text-gold-400 tracking-tighter text-lg">
+                        NH
+                    </div>
+                </div>
+                <span class="font-display font-bold text-lg tracking-tight text-white hidden sm:block">
+                    Nawar <span class="text-gold-400">Hamour</span>
+                </span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-gold-400 transition-colors" data-i18n="nav_about">Profil</a>
+                <a href="#projects" class="hover:text-gold-400 transition-colors" data-i18n="nav_projects">Projekte</a>
+                <a href="#skills" class="hover:text-gold-400 transition-colors" data-i18n="nav_skills">Kenntnisse</a>
+                <a href="#experience" class="hover:text-gold-400 transition-colors" data-i18n="nav_experience">Werdegang</a>
+                <a href="#contact" class="hover:text-gold-400 transition-colors" data-i18n="nav_contact">Kontakt</a>
+            </nav>
+
+            <!-- Right Actions: Bilingual Switcher + Mobile Menu Toggle -->
+            <div class="flex items-center gap-3">
+                <!-- Sleek DE / EN Language Switcher -->
+                <div class="bg-obsidian-800/90 border border-white/10 rounded-full p-1 flex items-center shadow-inner" role="group" aria-label="Language Switcher">
+                    <button id="btn-de" onclick="setLanguage('de')" class="px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 bg-gold-500 text-obsidian-950 shadow-sm">
+                        DE
+                    </button>
+                    <button id="btn-en" onclick="setLanguage('en')" class="px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 text-slate-400 hover:text-white">
+                        EN
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" aria-label="Menu" class="md:hidden p-2.5 rounded-xl bg-obsidian-800/80 border border-white/10 text-slate-200 hover:text-gold-400 transition-colors">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-obsidian-900/95 backdrop-blur-2xl border-b border-white/10 px-6 py-5 space-y-3">
+            <a href="#about" onclick="closeMobileMenu()" class="block py-2 text-base font-medium text-slate-200 hover:text-gold-400" data-i18n="nav_about">Profil</a>
+            <a href="#projects" onclick="closeMobileMenu()" class="block py-2 text-base font-medium text-slate-200 hover:text-gold-400" data-i18n="nav_projects">Projekte</a>
+            <a href="#skills" onclick="closeMobileMenu()" class="block py-2 text-base font-medium text-slate-200 hover:text-gold-400" data-i18n="nav_skills">Kenntnisse</a>
+            <a href="#experience" onclick="closeMobileMenu()" class="block py-2 text-base font-medium text-slate-200 hover:text-gold-400" data-i18n="nav_experience">Werdegang</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="block py-2 text-base font-medium text-slate-200 hover:text-gold-400" data-i18n="nav_contact">Kontakt</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+
+        <!-- HERO SECTION -->
+        <section class="min-h-screen pt-32 pb-20 flex items-center">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Hero Content -->
+                    <div class="lg:col-span-7 space-y-7">
+                        <!-- Availability Badge -->
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/25 text-gold-300 text-xs font-mono tracking-wide">
+                            <span class="relative flex h-2.5 w-2.5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold-500"></span>
+                            </span>
+                            <span data-i18n="hero_badge">Dortmund, Deutschland • Offen für IT-Positionen & Projekte</span>
+                        </div>
+
+                        <!-- Main Name & Role -->
+                        <div class="space-y-3">
+                            <p class="text-slate-400 font-mono text-sm sm:text-base tracking-wider uppercase" data-i18n="hero_greeting">
+                                Hallo, ich bin
+                            </p>
+                            <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-[1.1]">
+                                Nawar <span class="gold-gradient-text">Hamour</span>
+                            </h1>
+                            <h2 class="font-display font-semibold text-xl sm:text-2xl lg:text-3xl text-slate-300 pt-1" data-i18n="hero_role">
+                                IT-Entwicklerin &bull; Software &amp; Web Developer
+                            </h2>
+                        </div>
+
+                        <!-- Concise Elevator Pitch -->
+                        <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl" data-i18n="hero_subtitle">
+                            Informatik-Absolventin (TU Dortmund) mit Fokus auf moderne Webtechnologien, strukturierte Softwareentwicklung und benutzerzentriertes UI-Design.
+                        </p>
+
+                        <!-- Primary & Secondary CTAs -->
+                        <div class="flex flex-wrap items-center gap-4 pt-2">
+                            <a href="#projects" class="magnetic-btn inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-600 text-obsidian-950 font-display font-bold text-sm sm:text-base shadow-lg shadow-gold-500/25 hover:shadow-gold-500/40 hover:-translate-y-0.5 transition-all">
+                                <span data-i18n="hero_cta_projects">Projekte entdecken</span>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                            </a>
+                            <a href="#contact" class="magnetic-btn inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl glass-card text-white font-display font-semibold text-sm sm:text-base hover:text-gold-300 hover:-translate-y-0.5 transition-all">
+                                <i data-lucide="mail" class="w-4 h-4 text-gold-400"></i>
+                                <span data-i18n="hero_cta_contact">Kontakt aufnehmen</span>
+                            </a>
+                        </div>
+
+                        <!-- Quick Social & Location Bar -->
+                        <div class="pt-4 flex flex-wrap items-center gap-5 text-sm text-slate-400 border-t border-white/10">
+                            <a href="https://github.com/NawarHamour" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors">
+                                <i data-lucide="github" class="w-4 h-4 text-gold-400"></i>
+                                <span>github.com/NawarHamour</span>
+                            </a>
+                            <a href="https://linkedin.com/in/nawar-hamour-b8955a1a4" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-gold-400 transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4 text-gold-400"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <span class="inline-flex items-center gap-2">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-gold-400"></i>
+                                <span>Dortmund, DE</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Right Hero Visual: Luxury Code & Profile Card -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden animate-float">
+                            <!-- Top Decorative Window Bar -->
+                            <div class="flex items-center justify-between pb-5 mb-5 border-b border-white/10">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                                    <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                                </div>
+                                <span class="font-mono text-xs text-slate-400">developer.profile.ts</span>
+                            </div>
+
+                            <!-- Simulated Clean Developer Spec -->
+                            <div class="font-mono text-xs sm:text-sm space-y-2.5 leading-relaxed">
+                                <p><span class="text-gold-400">const</span> <span class="text-sky-300">developer</span> = {</p>
+                                <p class="pl-4"><span class="text-slate-400">name:</span> <span class="text-emerald-300">"Nawar Hamour"</span>,</p>
+                                <p class="pl-4"><span class="text-slate-400">degree:</span> <span class="text-emerald-300">"B.Sc. Informatik (TU Dortmund)"</span>,</p>
+                                <p class="pl-4"><span class="text-slate-400">role:</span> <span class="text-emerald-300">"IT-Entwicklerin"</span>,</p>
+                                <p class="pl-4"><span class="text-slate-400">location:</span> <span class="text-emerald-300">"Dortmund, Deutschland"</span>,</p>
+                                <p class="pl-4"><span class="text-slate-400">focus:</span> [</p>
+                                <p class="pl-8 text-amber-200">"Webentwicklung",</p>
+                                <p class="pl-8 text-amber-200">"UI-Design",</p>
+                                <p class="pl-8 text-amber-200">"Software Engineering",</p>
+                                <p class="pl-8 text-amber-200">"KI-Prompting"</p>
+                                <p class="pl-4">],</p>
+                                <p class="pl-4"><span class="text-slate-400">languages:</span> [<span class="text-emerald-300">"AR"</span>, <span class="text-emerald-300">"DE"</span>, <span class="text-emerald-300">"EN"</span>]</p>
+                                <p>};</p>
+                            </div>
+
+                            <!-- Bottom Highlight Pills -->
+                            <div class="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-3 text-center">
+                                <div class="bg-obsidian-950/60 rounded-2xl p-3 border border-white/5">
+                                    <div class="font-display font-bold text-lg text-gold-400">B.Sc.</div>
+                                    <div class="text-[11px] text-slate-400" data-i18n="stat_degree">Informatik</div>
+                                </div>
+                                <div class="bg-obsidian-950/60 rounded-2xl p-3 border border-white/5">
+                                    <div class="font-display font-bold text-lg text-gold-400">3+</div>
+                                    <div class="text-[11px] text-slate-400" data-i18n="stat_projects">GitHub Repos</div>
+                                </div>
+                                <div class="bg-obsidian-950/60 rounded-2xl p-3 border border-white/5">
+                                    <div class="font-display font-bold text-lg text-gold-400">3</div>
+                                    <div class="text-[11px] text-slate-400" data-i18n="stat_languages">Sprachen</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT / PROFILE SECTION -->
+        <section id="about" class="py-20 sm:py-28 reveal">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                        <div class="lg:col-span-4 space-y-3">
+                            <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="about_tag">01 / PROFIL</span>
+                            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="about_title">Über Mich</h2>
+                            <div class="w-14 h-1 rounded-full bg-gradient-to-r from-gold-400 to-gold-600"></div>
+                        </div>
+
+                        <div class="lg:col-span-8 space-y-6">
+                            <p class="text-slate-300 text-base sm:text-lg leading-relaxed" data-i18n="about_text">
+                                Informatik-Absolventin (TU Dortmund) mit großem Interesse an Softwareentwicklung, Webtechnologien und modernen IT-Lösungen. Erfahrung in der Entwicklung eigener Softwareprojekte sowie Kenntnisse in den Bereichen Programmierung, Webentwicklung, UI-Design, Git und Debugging. Motiviert, lernbereit und engagiert, mit ausgeprägten analytischen Fähigkeiten und einer strukturierten Arbeitsweise.
+                            </p>
+
+                            <!-- Core Strengths Highlights -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                                <div class="bg-obsidian-950/60 border border-white/5 rounded-2xl p-4 flex items-start gap-3">
+                                    <div class="p-2 rounded-xl bg-gold-500/15 text-gold-400 shrink-0">
+                                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-display font-semibold text-sm text-white" data-i18n="strength_1_title">Analytisches Denken</h3>
+                                        <p class="text-xs text-slate-400 mt-1" data-i18n="strength_1_desc">Strukturierte Problemlösung &amp; Debugging</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-obsidian-950/60 border border-white/5 rounded-2xl p-4 flex items-start gap-3">
+                                    <div class="p-2 rounded-xl bg-gold-500/15 text-gold-400 shrink-0">
+                                        <i data-lucide="layout" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-display font-semibold text-sm text-white" data-i18n="strength_2_title">Modernes UI-Design</h3>
+                                        <p class="text-xs text-slate-400 mt-1" data-i18n="strength_2_desc">Ästhetische &amp; responsive Web-Interfaces</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-obsidian-950/60 border border-white/5 rounded-2xl p-4 flex items-start gap-3">
+                                    <div class="p-2 rounded-xl bg-gold-500/15 text-gold-400 shrink-0">
+                                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-display font-semibold text-sm text-white" data-i18n="strength_3_title">Lernbereitschaft</h3>
+                                        <p class="text-xs text-slate-400 mt-1" data-i18n="strength_3_desc">Schnelle Einarbeitung in neue Tech-Stacks</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED PROJECTS SECTION -->
+        <section id="projects" class="py-20 sm:py-28 reveal">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+                    <div class="space-y-3">
+                        <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="projects_tag">02 / PORTFOLIO</span>
+                        <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="projects_title">Ausgewählte Projekte</h2>
+                    </div>
+                    <a href="https://github.com/NawarHamour" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-mono text-gold-400 hover:text-gold-300 transition-colors">
+                        <span data-i18n="projects_all_github">Alle Repositories auf GitHub</span>
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 3 Featured Project Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+                    
+                    <!-- Project 1: GAN -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between group hover:-translate-y-2">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-500/20 to-amber-600/10 border border-gold-500/30 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                                </div>
+                                <a href="https://github.com/NawarHamour/GAN" target="_blank" rel="noopener noreferrer" aria-label="GAN GitHub Repository" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-obsidian-950 text-slate-300 transition-colors">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+
+                            <h3 class="font-display font-bold text-xl text-white group-hover:text-gold-400 transition-colors mb-3">
+                                GAN
+                            </h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6" data-i18n="proj_gan_desc">
+                                Implementierung und Erforschung von Generative Adversarial Networks (GANs) im Bereich Künstliche Intelligenz und Deep Learning zur synthetischen Datengenerierung und Modelloptimierung.
+                            </p>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-gold-300 border border-gold-500/20">Deep Learning</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">AI / Neural Nets</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">Python</span>
+                            </div>
+
+                            <a href="https://github.com/NawarHamour/GAN" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-display font-semibold text-white group-hover:text-gold-400 transition-colors">
+                                <span data-i18n="view_code">Repository ansehen</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: UI Dev -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between group hover:-translate-y-2">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-500/20 to-amber-600/10 border border-gold-500/30 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="palette" class="w-6 h-6"></i>
+                                </div>
+                                <a href="https://github.com/NawarHamour/UI_Dev" target="_blank" rel="noopener noreferrer" aria-label="UI Dev GitHub Repository" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-obsidian-950 text-slate-300 transition-colors">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+
+                            <h3 class="font-display font-bold text-xl text-white group-hover:text-gold-400 transition-colors mb-3">
+                                UI Dev
+                            </h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6" data-i18n="proj_uidev_desc">
+                                Sammlung moderner Frontend-Komponenten und interaktiver Benutzeroberflächen mit Fokus auf responsive Layouts, Ästhetik, intuitive Benutzerführung und saubere Webarchitektur.
+                            </p>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-gold-300 border border-gold-500/20">UI-Design</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">Frontend</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">Responsive Web</span>
+                            </div>
+
+                            <a href="https://github.com/NawarHamour/UI_Dev" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-display font-semibold text-white group-hover:text-gold-400 transition-colors">
+                                <span data-i18n="view_code">Repository ansehen</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Project 3: DMS -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between group hover:-translate-y-2">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-500/20 to-amber-600/10 border border-gold-500/30 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+                                    <i data-lucide="folder-kanban" class="w-6 h-6"></i>
+                                </div>
+                                <a href="https://github.com/NawarHamour/Dms" target="_blank" rel="noopener noreferrer" aria-label="DMS GitHub Repository" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-obsidian-950 text-slate-300 transition-colors">
+                                    <i data-lucide="github" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+
+                            <h3 class="font-display font-bold text-xl text-white group-hover:text-gold-400 transition-colors mb-3">
+                                DMS (Document Management System)
+                            </h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6" data-i18n="proj_dms_desc">
+                                Strukturiertes Dokumentenmanagementsystem zur effizienten Organisation, Verwaltung und Digitalisierung von Dokumenten und Arbeitsabläufen mit klarer Softwarearchitektur.
+                            </p>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-gold-300 border border-gold-500/20">Software System</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">Data Management</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-mono bg-obsidian-950/80 text-slate-300 border border-white/10">Git</span>
+                            </div>
+
+                            <a href="https://github.com/NawarHamour/Dms" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-display font-semibold text-white group-hover:text-gold-400 transition-colors">
+                                <span data-i18n="view_code">Repository ansehen</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS & LANGUAGES SECTION -->
+        <section id="skills" class="py-20 sm:py-28 reveal">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    
+                    <!-- Technical Skills (7 cols) -->
+                    <div class="lg:col-span-7 space-y-8">
+                        <div class="space-y-3">
+                            <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="skills_tag">03 / KOMPETENZEN</span>
+                            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="skills_title">Technische Kenntnisse</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Skill 1 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base" data-i18n="skill_web">Webentwicklung</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">HTML5, CSS3, JavaScript, Responsive Design</p>
+                                </div>
+                            </div>
+
+                            <!-- Skill 2 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="figma" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base" data-i18n="skill_ui">UI-Design</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">User Interfaces, Prototyping, UX-Fokus</p>
+                                </div>
+                            </div>
+
+                            <!-- Skill 3 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="code-2" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base" data-i18n="skill_prog">Programmierung</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">Algorithmen, Datenstrukturen, Clean Code</p>
+                                </div>
+                            </div>
+
+                            <!-- Skill 4 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="git-branch" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base">Git &amp; Version Control</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">GitHub, Branching, Kollaboration</p>
+                                </div>
+                            </div>
+
+                            <!-- Skill 5 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="bug" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base" data-i18n="skill_debug">Fehlerbehebung</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">Debugging, Testing, Code-Analyse</p>
+                                </div>
+                            </div>
+
+                            <!-- Skill 6 -->
+                            <div class="glass-card rounded-2xl p-5 flex items-center gap-4 group cursor-default">
+                                <div class="w-11 h-11 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-obsidian-950 transition-colors shrink-0">
+                                    <i data-lucide="bot" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-display font-semibold text-white text-base" data-i18n="skill_ai">KI-Prompting</h3>
+                                    <p class="text-xs text-slate-400 mt-0.5">Prompt Engineering, AI-Workflows</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Languages Card (5 cols) -->
+                    <div class="lg:col-span-5 space-y-8">
+                        <div class="space-y-3">
+                            <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="lang_tag">04 / KOMMUNIKATION</span>
+                            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="lang_title">Sprachen</h2>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-7 space-y-6">
+                            <!-- Arabic -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-display font-semibold text-white" data-i18n="lang_ar">Arabisch</span>
+                                    <span class="text-xs font-mono text-gold-400" data-i18n="lang_ar_level">Muttersprache</span>
+                                </div>
+                                <div class="w-full h-2 bg-obsidian-950 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-gold-400 to-gold-600 rounded-full w-full"></div>
+                                </div>
+                            </div>
+
+                            <!-- German -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-display font-semibold text-white" data-i18n="lang_de">Deutsch</span>
+                                    <span class="text-xs font-mono text-gold-400" data-i18n="lang_de_level">Fließend</span>
+                                </div>
+                                <div class="w-full h-2 bg-obsidian-950 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-gold-400 to-gold-600 rounded-full w-[90%]"></div>
+                                </div>
+                            </div>
+
+                            <!-- English -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-display font-semibold text-white" data-i18n="lang_en">Englisch</span>
+                                    <span class="text-xs font-mono text-gold-400" data-i18n="lang_en_level">Gute Kenntnisse</span>
+                                </div>
+                                <div class="w-full h-2 bg-obsidian-950 rounded-full overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-gold-400 to-gold-600 rounded-full w-[80%]"></div>
+                                </div>
+                            </div>
+
+                            <div class="pt-3 border-t border-white/10 text-xs text-slate-400 flex items-center gap-2">
+                                <i data-lucide="globe-2" class="w-4 h-4 text-gold-400 shrink-0"></i>
+                                <span data-i18n="lang_note">Interkulturelle Teamfähigkeit in internationalen Umfeldern.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE & EDUCATION TIMELINE SECTION -->
+        <section id="experience" class="py-20 sm:py-28 reveal">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    
+                    <!-- Work Experience (7 cols) -->
+                    <div class="lg:col-span-7 space-y-8">
+                        <div class="space-y-3">
+                            <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="exp_tag">05 / PRAXIS</span>
+                            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="exp_title">Berufserfahrung</h2>
+                        </div>
+
+                        <div class="relative pl-6 sm:pl-8 border-l border-gold-500/30 space-y-6">
+                            
+                            <!-- Item 1: Freelance Developer -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-gold-500 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white">Freelance Developer</h3>
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-gold-500/15 text-gold-300 border border-gold-500/30" data-i18n="date_present">06/2025 – Heute</span>
+                                </div>
+                                <p class="text-sm font-medium text-gold-400 mb-2">Freelance &bull; Remote</p>
+                                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-i18n="exp_1_desc">
+                                    Konzeption und Entwicklung individueller Software- und Weblösungen, UI-Design, Versionierung mit Git sowie kontinuierliche Optimierung und Fehlerbehebung.
+                                </p>
+                            </div>
+
+                            <!-- Item 2: Bürohilfskraft -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-obsidian-700 border-2 border-gold-400 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white" data-i18n="exp_2_role">Bürohilfskraft</h3>
+                                    <span class="text-xs font-mono text-slate-400">04/2025 – 04/2026</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300">Hammour Kurierdienst &bull; Dortmund</p>
+                            </div>
+
+                            <!-- Item 3: Kassiererin -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-obsidian-700 border-2 border-gold-400 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white" data-i18n="exp_3_role">Kassiererin</h3>
+                                    <span class="text-xs font-mono text-slate-400">01/2025 – 04/2025</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300">H&amp;M Hennes &amp; Mauritz B.V. &amp; Co. KG &bull; Herne</p>
+                            </div>
+
+                            <!-- Item 4: Verkäuferin Smyths Toys -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-obsidian-700 border-2 border-gold-400 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white" data-i18n="exp_4_role">Verkäuferin</h3>
+                                    <span class="text-xs font-mono text-slate-400">09/2024 – 12/2024</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300">Smyths Toys &bull; Dortmund</p>
+                            </div>
+
+                            <!-- Item 5: Verkäuferin Action -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-obsidian-700 border-2 border-gold-400 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white" data-i18n="exp_5_role">Verkäuferin</h3>
+                                    <span class="text-xs font-mono text-slate-400">02/2024 – 05/2024</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300">Action &bull; Dortmund</p>
+                            </div>
+
+                            <!-- Item 6: Datenerfassung -->
+                            <div class="relative glass-card rounded-2xl p-6">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-7 w-4 h-4 rounded-full bg-obsidian-700 border-2 border-gold-400 ring-4 ring-obsidian-900"></span>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+                                    <h3 class="font-display font-bold text-lg text-white" data-i18n="exp_6_role">Datenerfassung</h3>
+                                    <span class="text-xs font-mono text-slate-400">02/2023 – 09/2023</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-300">Fleischhacker GmbH &amp; Co. KG &bull; Schwerte</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Education (5 cols) -->
+                    <div class="lg:col-span-5 space-y-8">
+                        <div class="space-y-3">
+                            <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="edu_tag">06 / AKADEMISCHER WEG</span>
+                            <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="edu_title">Ausbildung</h2>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- TU Dortmund -->
+                            <div class="glass-card rounded-3xl p-7 border-l-4 border-l-gold-500">
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-gold-500/15 text-gold-300 border border-gold-500/30">2020 – 2026</span>
+                                    <i data-lucide="graduation-cap" class="w-5 h-5 text-gold-400"></i>
+                                </div>
+                                <h3 class="font-display font-bold text-xl text-white mb-1">
+                                    Bachelor of Science Informatik (B.Sc.)
+                                </h3>
+                                <p class="text-sm font-medium text-gold-400 mb-3">
+                                    Technische Universität Dortmund &bull; Dortmund
+                                </p>
+                                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed" data-i18n="edu_1_desc">
+                                    Fundierte Informatikausbildung mit Schwerpunkten in Softwareentwicklung, Algorithmen, Datenbanken und modernen Webtechnologien.
+                                </p>
+                            </div>
+
+                            <!-- Universität Damaskus -->
+                            <div class="glass-card rounded-3xl p-7">
+                                <div class="flex items-center justify-between gap-2 mb-3">
+                                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 text-slate-300 border border-white/10">2012</span>
+                                    <i data-lucide="book-open" class="w-5 h-5 text-slate-400"></i>
+                                </div>
+                                <h3 class="font-display font-bold text-lg text-white mb-1" data-i18n="edu_2_title">
+                                    Studium der Wirtschaftswissenschaften
+                                </h3>
+                                <p class="text-sm font-medium text-slate-300" data-i18n="edu_2_uni">
+                                    Universität Damaskus &bull; Damaskus, Syrien
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="py-20 sm:py-28 reveal">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 lg:p-14 relative overflow-hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                        
+                        <!-- Contact Direct Info -->
+                        <div class="lg:col-span-5 space-y-6">
+                            <div class="space-y-3">
+                                <span class="font-mono text-xs uppercase tracking-widest text-gold-400" data-i18n="contact_tag">07 / KONTAKT</span>
+                                <h2 class="font-display font-bold text-3xl sm:text-4xl text-white" data-i18n="contact_title">Lassen Sie uns sprechen</h2>
+                                <p class="text-slate-400 text-sm sm:text-base leading-relaxed" data-i18n="contact_subtitle">
+                                    Sie suchen eine engagierte IT-Entwicklerin für Ihr Team oder planen ein spannendes Software- bzw. Webprojekt? Ich freue mich auf Ihre Nachricht.
+                                </p>
+                            </div>
+
+                            <!-- Interactive Copyable Contact Cards -->
+                            <div class="space-y-3 pt-2">
+                                <!-- Email Card -->
+                                <div class="bg-obsidian-950/70 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3 group hover:border-gold-500/40 transition-colors">
+                                    <a href="mailto:nawarhamour94@gmail.com" class="flex items-center gap-3.5 min-w-0">
+                                        <div class="w-10 h-10 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center shrink-0">
+                                            <i data-lucide="mail" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <div class="text-xs text-slate-400">E-Mail</div>
+                                            <div class="text-sm font-mono text-white truncate group-hover:text-gold-400 transition-colors">nawarhamour94@gmail.com</div>
+                                        </div>
+                                    </a>
+                                    <button onclick="copyToClipboard('nawarhamour94@gmail.com', 'E-Mail')" aria-label="Copy Email" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-obsidian-950 text-slate-300 transition-colors shrink-0" title="Kopieren">
+                                        <i data-lucide="copy" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Phone Card -->
+                                <div class="bg-obsidian-950/70 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3 group hover:border-gold-500/40 transition-colors">
+                                    <a href="tel:+4915777312645" class="flex items-center gap-3.5 min-w-0">
+                                        <div class="w-10 h-10 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center shrink-0">
+                                            <i data-lucide="phone" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="truncate">
+                                            <div class="text-xs text-slate-400" data-i18n="contact_phone_label">Telefon</div>
+                                            <div class="text-sm font-mono text-white truncate group-hover:text-gold-400 transition-colors">+49 1577 7312645</div>
+                                        </div>
+                                    </a>
+                                    <button onclick="copyToClipboard('+4915777312645', 'Telefonnummer')" aria-label="Copy Phone" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-obsidian-950 text-slate-300 transition-colors shrink-0" title="Kopieren">
+                                        <i data-lucide="copy" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Location Card -->
+                                <div class="bg-obsidian-950/70 border border-white/10 rounded-2xl p-4 flex items-center gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-gold-500/15 text-gold-400 flex items-center justify-center shrink-0">
+                                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs text-slate-400" data-i18n="contact_loc_label">Standort</div>
+                                        <div class="text-sm font-medium text-white">Dortmund, Deutschland</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Contact Form -->
+                        <div class="lg:col-span-7">
+                            <form id="contact-form" onsubmit="handleFormSubmit(event)" class="bg-obsidian-950/60 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-5">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div class="space-y-2">
+                                        <label for="name" class="block text-xs font-mono uppercase tracking-wider text-slate-400" data-i18n="form_name">Ihr Name</label>
+                                        <input type="text" id="name" required placeholder="Max Mustermann" class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-gold-500 transition-colors">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label for="email" class="block text-xs font-mono uppercase tracking-wider text-slate-400" data-i18n="form_email">Ihre E-Mail</label>
+                                        <input type="email" id="email" required placeholder="name@unternehmen.de" class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-gold-500 transition-colors">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="subject" class="block text-xs font-mono uppercase tracking-wider text-slate-400" data-i18n="form_subject">Betreff</label>
+                                    <input type="text" id="subject" required placeholder="Projektanfrage / Stellenangebot" class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-gold-500 transition-colors">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="message" class="block text-xs font-mono uppercase tracking-wider text-slate-400" data-i18n="form_message">Nachricht</label>
+                                    <textarea id="message" rows="4" required placeholder="Hallo Nawar, ..." class="w-full px-4 py-3 rounded-xl bg-obsidian-900 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-gold-500 transition-colors resize-none"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-600 text-obsidian-950 font-display font-bold text-sm sm:text-base shadow-lg shadow-gold-500/20 hover:shadow-gold-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                                    <span data-i18n="form_submit">Nachricht senden</span>
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-white/10 bg-obsidian-950/80 py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-gold-500/15 border border-gold-500/30 flex items-center justify-center font-display font-bold text-gold-400 text-sm">NH</span>
+                <span class="text-sm text-slate-400">&copy; 2026 Nawar Hamour. <span data-i18n="footer_rights">Alle Rechte vorbehalten.</span></span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/NawarHamour" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500/20 text-slate-400 hover:text-gold-400 transition-colors">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+                <a href="https://linkedin.com/in/nawar-hamour-b8955a1a4" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500/20 text-slate-400 hover:text-gold-400 transition-colors">
+                    <i data-lucide="linkedin" class="w-4 h-4"></i>
+                </a>
+                <a href="mailto:nawarhamour94@gmail.com" aria-label="Email" class="p-2.5 rounded-xl bg-white/5 hover:bg-gold-500/20 text-slate-400 hover:text-gold-400 transition-colors">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic & Bilingual Dictionary -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Bilingual Translations (German Default / English)
+        const translations = {
+            de: {
+                nav_about: "Profil",
+                nav_projects: "Projekte",
+                nav_skills: "Kenntnisse",
+                nav_experience: "Werdegang",
+                nav_contact: "Kontakt",
+                hero_badge: "Dortmund, Deutschland • Offen für IT-Positionen & Projekte",
+                hero_greeting: "Hallo, ich bin",
+                hero_role: "IT-Entwicklerin • Software & Web Developer",
+                hero_subtitle: "Informatik-Absolventin (TU Dortmund) mit Fokus auf moderne Webtechnologien, strukturierte Softwareentwicklung und benutzerzentriertes UI-Design.",
+                hero_cta_projects: "Projekte entdecken",
+                hero_cta_contact: "Kontakt aufnehmen",
+                stat_degree: "Informatik",
+                stat_projects: "GitHub Repos",
+                stat_languages: "Sprachen",
+                about_tag: "01 / PROFIL",
+                about_title: "Über Mich",
+                about_text: "Informatik-Absolventin (TU Dortmund) mit großem Interesse an Softwareentwicklung, Webtechnologien und modernen IT-Lösungen. Erfahrung in der Entwicklung eigener Softwareprojekte sowie Kenntnisse in den Bereichen Programmierung, Webentwicklung, UI-Design, Git und Debugging. Motiviert, lernbereit und engagiert, mit ausgeprägten analytischen Fähigkeiten und einer strukturierten Arbeitsweise.",
+                strength_1_title: "Analytisches Denken",
+                strength_1_desc: "Strukturierte Problemlösung & Debugging",
+                strength_2_title: "Modernes UI-Design",
+                strength_2_desc: "Ästhetische & responsive Web-Interfaces",
+                strength_3_title: "Lernbereitschaft",
+                strength_3_desc: "Schnelle Einarbeitung in neue Tech-Stacks",
+                projects_tag: "02 / PORTFOLIO",
+                projects_title: "Ausgewählte Projekte",
+                projects_all_github: "Alle Repositories auf GitHub",
+                proj_gan_desc: "Implementierung und Erforschung von Generative Adversarial Networks (GANs) im Bereich Künstliche Intelligenz und Deep Learning zur synthetischen Datengenerierung und Modelloptimierung.",
+                proj_uidev_desc: "Sammlung moderner Frontend-Komponenten und interaktiver Benutzeroberflächen mit Fokus auf responsive Layouts, Ästhetik, intuitive Benutzerführung und saubere Webarchitektur.",
+                proj_dms_desc: "Strukturiertes Dokumentenmanagementsystem zur effizienten Organisation, Verwaltung und Digitalisierung von Dokumenten und Arbeitsabläufen mit klarer Softwarearchitektur.",
+                view_code: "Repository ansehen",
+                skills_tag: "03 / KOMPETENZEN",
+                skills_title: "Technische Kenntnisse",
+                skill_web: "Webentwicklung",
+                skill_ui: "UI-Design",
+                skill_prog: "Programmierung",
+                skill_debug: "Fehlerbehebung",
+                skill_ai: "KI-Prompting",
+                lang_tag: "04 / KOMMUNIKATION",
+                lang_title: "Sprachen",
+                lang_ar: "Arabisch",
+                lang_ar_level: "Muttersprache",
+                lang_de: "Deutsch",
+                lang_de_level: "Fließend",
+                lang_en: "Englisch",
+                lang_en_level: "Gute Kenntnisse",
+                lang_note: "Interkulturelle Teamfähigkeit in internationalen Umfeldern.",
+                exp_tag: "05 / PRAXIS",
+                exp_title: "Berufserfahrung",
+                date_present: "06/2025 – Heute",
+                exp_1_desc: "Konzeption und Entwicklung individueller Software- und Weblösungen, UI-Design, Versionierung mit Git sowie kontinuierliche Optimierung und Fehlerbehebung.",
+                exp_2_role: "Bürohilfskraft",
+                exp_3_role: "Kassiererin",
+                exp_4_role: "Verkäuferin",
+                exp_5_role: "Verkäuferin",
+                exp_6_role: "Datenerfassung",
+                edu_tag: "06 / AKADEMISCHER WEG",
+                edu_title: "Ausbildung",
+                edu_1_desc: "Fundierte Informatikausbildung mit Schwerpunkten in Softwareentwicklung, Algorithmen, Datenbanken und modernen Webtechnologien.",
+                edu_2_title: "Studium der Wirtschaftswissenschaften",
+                edu_2_uni: "Universität Damaskus • Damaskus, Syrien",
+                contact_tag: "07 / KONTAKT",
+                contact_title: "Lassen Sie uns sprechen",
+                contact_subtitle: "Sie suchen eine engagierte IT-Entwicklerin für Ihr Team oder planen ein spannendes Software- bzw. Webprojekt? Ich freue mich auf Ihre Nachricht.",
+                contact_phone_label: "Telefon",
+                contact_loc_label: "Standort",
+                form_name: "Ihr Name",
+                form_email: "Ihre E-Mail",
+                form_subject: "Betreff",
+                form_message: "Nachricht",
+                form_submit: "Nachricht senden",
+                footer_rights: "Alle Rechte vorbehalten."
+            },
+            en: {
+                nav_about: "Profile",
+                nav_projects: "Projects",
+                nav_skills: "Skills",
+                nav_experience: "Experience",
+                nav_contact: "Contact",
+                hero_badge: "Dortmund, Germany • Open to IT Roles & Projects",
+                hero_greeting: "Hello, I am",
+                hero_role: "IT Developer • Software & Web Developer",
+                hero_subtitle: "Computer Science graduate (TU Dortmund) focused on modern web technologies, structured software engineering, and user-centric UI design.",
+                hero_cta_projects: "Explore Projects",
+                hero_cta_contact: "Get in Touch",
+                stat_degree: "Computer Science",
+                stat_projects: "GitHub Repos",
+                stat_languages: "Languages",
+                about_tag: "01 / PROFILE",
+                about_title: "About Me",
+                about_text: "Computer Science graduate (TU Dortmund) with a strong passion for software development, web technologies, and modern IT solutions. Experienced in building independent software projects with solid skills in programming, web development, UI design, Git, and debugging. Motivated, eager to learn, and dedicated, featuring strong analytical thinking and a structured working style.",
+                strength_1_title: "Analytical Mindset",
+                strength_1_desc: "Structured problem solving & debugging",
+                strength_2_title: "Modern UI Design",
+                strength_2_desc: "Aesthetic & responsive web interfaces",
+                strength_3_title: "Fast Learner",
+                strength_3_desc: "Quick adaptation to modern tech stacks",
+                projects_tag: "02 / PORTFOLIO",
+                projects_title: "Featured Projects",
+                projects_all_github: "All Repositories on GitHub",
+                proj_gan_desc: "Implementation and exploration of Generative Adversarial Networks (GANs) in Artificial Intelligence and Deep Learning for synthetic data generation and model optimization.",
+                proj_uidev_desc: "Collection of modern frontend components and interactive user interfaces focused on responsive layouts, visual polish, intuitive UX, and clean web architecture.",
+                proj_dms_desc: "Structured Document Management System designed for efficient organization, administration, and digitization of documents and workflows with clean software architecture.",
+                view_code: "View Repository",
+                skills_tag: "03 / EXPERTISE",
+                skills_title: "Technical Skills",
+                skill_web: "Web Development",
+                skill_ui: "UI Design",
+                skill_prog: "Programming",
+                skill_debug: "Debugging",
+                skill_ai: "AI Prompting",
+                lang_tag: "04 / COMMUNICATION",
+                lang_title: "Languages",
+                lang_ar: "Arabic",
+                lang_ar_level: "Native",
+                lang_de: "German",
+                lang_de_level: "Fluent",
+                lang_en: "English",
+                lang_en_level: "Proficient",
+                lang_note: "Strong intercultural collaboration in international environments.",
+                exp_tag: "05 / CAREER",
+                exp_title: "Work Experience",
+                date_present: "06/2025 – Present",
+                exp_1_desc: "Design and development of custom software and web solutions, UI design, Git version control, and continuous optimization and debugging.",
+                exp_2_role: "Office Assistant",
+                exp_3_role: "Cashier",
+                exp_4_role: "Sales Associate",
+                exp_5_role: "Sales Associate",
+                exp_6_role: "Data Entry Specialist",
+                edu_tag: "06 / ACADEMICS",
+                edu_title: "Education",
+                edu_1_desc: "Comprehensive Computer Science degree focusing on software engineering, algorithms, databases, and modern web technologies.",
+                edu_2_title: "Studies in Economics",
+                edu_2_uni: "Damascus University • Damascus, Syria",
+                contact_tag: "07 / CONTACT",
+                contact_title: "Let's Connect",
+                contact_subtitle: "Looking for a dedicated IT Developer for your team or planning an exciting software or web project? I look forward to hearing from you.",
+                contact_phone_label: "Phone",
+                contact_loc_label: "Location",
+                form_name: "Your Name",
+                form_email: "Your Email",
+                form_subject: "Subject",
+                form_message: "Message",
+                form_submit: "Send Message",
+                footer_rights: "All rights reserved."
+            }
+        };
+
+        let currentLang = 'de';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            // Update toggle button styles
+            const btnDe = document.getElementById('btn-de');
+            const btnEn = document.getElementById('btn-en');
+
+            if (lang === 'de') {
+                btnDe.className = "px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 bg-gold-500 text-obsidian-950 shadow-sm";
+                btnEn.className = "px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 text-slate-400 hover:text-white";
+            } else {
+                btnEn.className = "px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 bg-gold-500 text-obsidian-950 shadow-sm";
+                btnDe.className = "px-3 py-1.5 rounded-full text-xs font-mono font-semibold transition-all duration-200 text-slate-400 hover:text-white";
+            }
+
+            // Apply translations
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Toast Notification Utility
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Reliable Clipboard Copy (Works in iFrames)
+        function copyToClipboard(text, label) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            tempInput.style.position = 'fixed';
+            tempInput.style.left = '-9999px';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                const msg = currentLang === 'de' 
+                    ? `${label} in die Zwischenablage kopiert!` 
+                    : `${label} copied to clipboard!`;
+                showToast(msg);
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        // Contact Form Handler (Opens pre-filled mailto + shows confirmation toast)
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            const mailtoBody = encodeURIComponent(`Name: ${name}\nE-Mail: ${email}\n\n${message}`);
+            const mailtoSubject = encodeURIComponent(subject);
+
+            const confirmMsg = currentLang === 'de'
+                ? 'Vielen Dank! Ihr E-Mail-Programm wird geöffnet...'
+                : 'Thank you! Opening your email client...';
+            showToast(confirmMsg);
+
+            setTimeout(() => {
+                window.location.href = `mailto:nawarhamour94@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+            }, 600);
+        }
+
+        // Scroll Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Subtle Magnetic Hover Effect on Primary Buttons
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.14}px, ${y * 0.18}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0px, 0px)';
+            });
+        });
+    </script>
+</body>
+</html>
